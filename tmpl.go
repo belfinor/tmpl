@@ -1,8 +1,8 @@
 package tmpl
 
 // @author  Mikhail Kirillov <mikkirillov@yandex.ru>
-// @version 1.001
-// @date    2019-07-09
+// @version 1.002
+// @date    2019-08-19
 
 import (
 	"bytes"
@@ -31,6 +31,10 @@ func New(dirs []string, def bool) *Tmpl {
 	// add noescape filter
 	tmpl.set.AddGlobal("noescape", jet.SafeWriter(func(w io.Writer, b []byte) {
 		w.Write(b)
+	}))
+
+	tmpl.set.AddGlobal("pathescape", jet.SafeWriter(func(w io.Writer, b []byte) {
+		w.Write([]byte(url.PathEscape(string(b))))
 	}))
 
 	tmpl.set.AddGlobal("urlescape", jet.SafeWriter(func(w io.Writer, b []byte) {
